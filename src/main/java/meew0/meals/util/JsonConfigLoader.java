@@ -131,8 +131,8 @@ public class JsonConfigLoader {
                 buffer.write("\t\t\"saturation\":\"0.2\",\n");
                 buffer.write("\t\t\"useDuration\":\"20\",\n");
                 buffer.write("\t\t\"texture\":\"minecraft:diamond\",\n");
-                buffer.write("\t\t\"recipe\":\"ccc,cic,ccc,c,coal,i,iron_ingot\"\n");
-                buffer.write("\t\t\"recipeAmount\":\"1\",\n");
+                buffer.write("\t\t\"recipe\":\"ccc,cic,ccc,c,coal,i,iron_ingot\",\n");
+                buffer.write("\t\t\"recipeAmount\":\"1\"\n");
                 buffer.write("\t},\n");
                 buffer.write("\t{\n");
                 buffer.write("\t\t\"name\":\"Test Food 2\",\n");
@@ -140,8 +140,8 @@ public class JsonConfigLoader {
                 buffer.write("\t\t\"saturation\":\"1.0\",\n");
                 buffer.write("\t\t\"useDuration\":\"100\"\n");
                 buffer.write("\t\t\"texture\":\"meals:test\",\n");
-                buffer.write("\t\t\"recipe\":\"ccc,cdc,sss,c,coal,d,dye:2,s,stone\"\n");
-                buffer.write("\t\t\"recipeAmount\":\"8\",\n");
+                buffer.write("\t\t\"recipe\":\"ccc,cdc,sss,c,coal,d,dye:2,s,stone\",\n");
+                buffer.write("\t\t\"recipeAmount\":\"8\"\n");
                 buffer.write("\t}\n");
                 buffer.write("]");
 
