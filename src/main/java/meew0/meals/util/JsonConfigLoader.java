@@ -124,7 +124,7 @@ public class JsonConfigLoader {
                 FileOutputStream fos = new FileOutputStream(file);
                 BufferedWriter buffer = new BufferedWriter(new OutputStreamWriter(fos, encoding));
 
-                buffer.write("{\"list\":[\n");
+                buffer.write("[\n");
                 buffer.write("\t{\n");
                 buffer.write("\t\t\"name\":\"Test Food 1\",\n");
                 buffer.write("\t\t\"hunger\":\"5\",\n");
@@ -143,7 +143,7 @@ public class JsonConfigLoader {
                 buffer.write("\t\t\"recipe\":\"ccc,cdc,sss,c,coal,d,dye:2,s,stone\"\n");
                 buffer.write("\t\t\"recipeAmount\":\"8\",\n");
                 buffer.write("\t}\n");
-                buffer.write("]}");
+                buffer.write("]");
 
                 buffer.close();
                 fos.close();
