@@ -15,6 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.config.Configuration;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -35,6 +36,8 @@ public class Meals {
     public static String mealUnlocalizedName = "meal";
     public static String foodConfigFileName = "Meals_FoodConfig.json";
 
+    public static Logger log;
+
     public static Item meal;
 
     public static CreativeTabs mealsTab = new CreativeTabs("meals") {
@@ -46,6 +49,8 @@ public class Meals {
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        log = event.getModLog();
+
         modConfig = new Configuration(event.getSuggestedConfigurationFile());
 
         modConfig.load();
@@ -62,13 +67,21 @@ public class Meals {
         foodConfig = new JsonConfigLoader(foodCfgFile).load();
 
         for (MealBean m : foodConfig) {
-            event.getModLog().info("Found entry: " + m);
+            log.info("Found entry: " + m);
         }
 
         meal = new ItemMeal().setUnlocalizedName("meal").setHasSubtypes(true).setTextureName("meals:default").setCreativeTab(mealsTab);
 
         GameRegistry.registerItem(meal, "meal");
 
+    }
+
+    @EventHandler
+    public void init(FMLInitializationEvent event) {
+    }
+
+    @EventHandler
+    public void postInit(FMLPostInitializationEvent event) {
         int i = -1;
         for (MealBean m : foodConfig) {
             i++;
@@ -76,7 +89,7 @@ public class Meals {
             String[] recipe = m.getRecipe().split(",");
             ArrayList<Object> recipe2 = new ArrayList<Object>();
             if (recipe.length < 3 || (recipe.length % 2 != 1)) {
-                event.getModLog().error("Invalid recipe detected for food item " + m.getName());
+                log.error("Invalid recipe detected for food item " + m.getName());
                 continue;
             }
             for (int j = 0; j < recipe.length; j++) {
@@ -95,13 +108,5 @@ public class Meals {
             }
             GameRegistry.addShapedRecipe(new ItemStack(meal, m.getRecipeAmount(), i), recipe2.toArray());
         }
-    }
-
-    @EventHandler
-    public void init(FMLInitializationEvent event) {
-    }
-
-    @EventHandler
-    public void postInit(FMLPostInitializationEvent event) {
     }
 }
