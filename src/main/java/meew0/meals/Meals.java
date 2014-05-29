@@ -20,10 +20,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-@Mod(modid = Meals.MODID, version = Meals.VERSION)
+@Mod(modid = Meals.MODID, version = Meals.VERSION, name = Meals.NAME)
 public class Meals {
     public static final String MODID = "meals";
-    public static final String VERSION = "0.01";
+    public static final String VERSION = "0.1";
+    public static final String NAME = "Meals";
 
     public static List<MealBean> foodConfig;
     public static Configuration modConfig;
@@ -61,7 +62,7 @@ public class Meals {
         foodConfig = new JsonConfigLoader(foodCfgFile).load();
 
         for (MealBean m : foodConfig) {
-            System.out.println(m);
+            event.getModLog().info("Found entry: " + m);
         }
 
         meal = new ItemMeal().setUnlocalizedName("meal").setHasSubtypes(true).setTextureName("meals:default").setCreativeTab(mealsTab);
@@ -80,7 +81,6 @@ public class Meals {
             }
             for (int j = 0; j < recipe.length; j++) {
                 if (j > 2 && (j % 2 == 0)) {
-                    System.out.println("test");
                     String[] item = recipe[j].split(":");
                     int damage = 0;
                     if (item.length > 1) {
@@ -92,7 +92,6 @@ public class Meals {
                 } else {
                     recipe2.add(recipe[j]);
                 }
-                System.out.println(recipe2.get(j));
             }
             GameRegistry.addShapedRecipe(new ItemStack(meal, m.getRecipeAmount(), i), recipe2.toArray());
         }

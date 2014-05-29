@@ -1,14 +1,14 @@
 [
 {
-  "modid": "examplemod",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
+  "modid": "meals",
+  "name": "Meals",
+  "description": "A mod that adds configurable food.",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authorList": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
+  "authorList": ["meew0"],
+  "credits": "meew0, Jadedcat",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []
