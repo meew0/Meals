@@ -13,6 +13,7 @@ public class MealBean {
     private String texture;
     private IIcon icon;
     private String recipe;
+    private int recipeAmount;
 
 
     public String getName() {
@@ -74,5 +75,13 @@ public class MealBean {
 
     public void setIcon(IIcon icon) {
         this.icon = icon;
+    }
+
+    public int getRecipeAmount() {
+        return recipeAmount;
+    }
+
+    public void setRecipeAmount(int recipeAmount) {
+        this.recipeAmount = recipeAmount;
     }
 }

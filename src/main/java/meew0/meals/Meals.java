@@ -2,6 +2,7 @@ package meew0.meals;
 
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.GameRegistry;
 import meew0.meals.util.JsonConfigLoader;
 import net.minecraft.creativetab.CreativeTabs;
@@ -10,16 +11,17 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.config.Configuration;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 @Mod(modid = Meals.MODID, version = Meals.VERSION)
-public class Meals
-{
+public class Meals {
     public static final String MODID = "meals";
     public static final String VERSION = "0.01";
 
@@ -42,8 +44,7 @@ public class Meals
     };
 
     @EventHandler
-    public void preInit(FMLPreInitializationEvent event)
-    {
+    public void preInit(FMLPreInitializationEvent event) {
         modConfig = new Configuration(event.getSuggestedConfigurationFile());
 
         modConfig.load();
@@ -59,22 +60,49 @@ public class Meals
         File foodCfgFile = new File(event.getModConfigurationDirectory(), foodConfigFileName);
         foodConfig = new JsonConfigLoader(foodCfgFile).load();
 
-        for(MealBean m : foodConfig) {
+        for (MealBean m : foodConfig) {
             System.out.println(m);
         }
 
         meal = new ItemMeal().setUnlocalizedName("meal").setHasSubtypes(true).setTextureName("meals:default").setCreativeTab(mealsTab);
 
         GameRegistry.registerItem(meal, "meal");
+
+        int i = -1;
+        for (MealBean m : foodConfig) {
+            i++;
+            if (m.getRecipe() == null) continue;
+            String[] recipe = m.getRecipe().split(",");
+            ArrayList<Object> recipe2 = new ArrayList<Object>();
+            if (recipe.length < 3 || (recipe.length % 2 != 1)) {
+                event.getModLog().error("Invalid recipe detected for food item " + m.getName());
+                continue;
+            }
+            for (int j = 0; j < recipe.length; j++) {
+                if (j > 2 && (j % 2 == 0)) {
+                    System.out.println("test");
+                    String[] item = recipe[j].split(":");
+                    int damage = 0;
+                    if (item.length > 1) {
+                        damage = Integer.parseInt(item[1]);
+                    }
+                    recipe2.add(new ItemStack(GameData.getItemRegistry().getObject(item[0]), 1, damage));
+                } else if (j > 2 && (j % 2 == 1)) {
+                    recipe2.add(recipe[j].charAt(0));
+                } else {
+                    recipe2.add(recipe[j]);
+                }
+                System.out.println(recipe2.get(j));
+            }
+            GameRegistry.addShapedRecipe(new ItemStack(meal, m.getRecipeAmount(), i), recipe2.toArray());
+        }
     }
 
     @EventHandler
-    public void init(FMLInitializationEvent event)
-    {
+    public void init(FMLInitializationEvent event) {
     }
 
     @EventHandler
-    public void postInit(FMLPostInitializationEvent event)
-    {
+    public void postInit(FMLPostInitializationEvent event) {
     }
 }
