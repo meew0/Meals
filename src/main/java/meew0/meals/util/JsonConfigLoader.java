@@ -138,7 +138,7 @@ public class JsonConfigLoader {
                 buffer.write("\t\t\"name\":\"Test Food 2\",\n");
                 buffer.write("\t\t\"hunger\":\"1\",\n");
                 buffer.write("\t\t\"saturation\":\"1.0\",\n");
-                buffer.write("\t\t\"useDuration\":\"100\"\n");
+                buffer.write("\t\t\"useDuration\":\"100\",\n");
                 buffer.write("\t\t\"texture\":\"meals:test\",\n");
                 buffer.write("\t\t\"recipe\":\"ccc,cdc,sss,c,coal,d,dye:2,s,stone\",\n");
                 buffer.write("\t\t\"recipeAmount\":\"8\"\n");
