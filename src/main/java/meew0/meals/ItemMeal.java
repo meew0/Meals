@@ -6,8 +6,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.World;
 
 import java.util.List;
 
@@ -89,5 +91,22 @@ public class ItemMeal extends ItemFood {
     @Override
     public boolean isWolfsFavoriteMeat() {
         return Meals.wolvesLikeMeals;
+    }
+
+    @Override
+    protected void onFoodEaten(ItemStack stack, World world, EntityPlayer player) {
+        if(!world.isRemote) {
+            if(stack.getItemDamage() >= Meals.foodConfig.size()) {
+                return;
+            }
+            MealBean m = Meals.foodConfig.get(stack.getItemDamage());
+            if(m.getEffects() != null) {
+                // apply effects
+
+                for(MealBean.MealEffect e : m.getEffects()) {
+                    player.addPotionEffect(new PotionEffect(e.getId(), e.getDuration(), e.getAmplifier()));
+                }
+            }
+        }
     }
 }

@@ -141,7 +141,19 @@ public class JsonConfigLoader {
                 buffer.write("\t\t\"useDuration\":\"100\",\n");
                 buffer.write("\t\t\"texture\":\"meals:test\",\n");
                 buffer.write("\t\t\"recipe\":\"ccc,cdc,sss,c,coal,d,dye:2,s,stone\",\n");
-                buffer.write("\t\t\"recipeAmount\":\"8\"\n");
+                buffer.write("\t\t\"recipeAmount\":\"8\",\n");
+                buffer.write("\t\t\"effects\":[\n");
+                buffer.write("\t\t\t{\n");
+                buffer.write("\t\t\t\t\"id\":\"23\",\n");
+                buffer.write("\t\t\t\t\"duration\":\"1200\",\n");
+                buffer.write("\t\t\t\t\"amplifier\":\"0\"\n");
+                buffer.write("\t\t\t},\n");
+                buffer.write("\t\t\t{\n");
+                buffer.write("\t\t\t\t\"id\":\"3\",\n");
+                buffer.write("\t\t\t\t\"duration\":\"200\",\n");
+                buffer.write("\t\t\t\t\"amplifier\":\"2\"\n");
+                buffer.write("\t\t\t}\n");
+                buffer.write("\t\t]\n");
                 buffer.write("\t}\n");
                 buffer.write("]");
 

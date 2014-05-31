@@ -20,11 +20,12 @@ import org.apache.logging.log4j.Logger;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Mod(modid = Meals.MODID, version = Meals.VERSION, name = Meals.NAME)
 public class Meals {
     public static final String MODID = "meals";
-    public static final String VERSION = "0.1";
+    public static final String VERSION = "0.12";
     public static final String NAME = "Meals";
 
     public static List<MealBean> foodConfig;
@@ -70,9 +71,9 @@ public class Meals {
             log.info("Found entry: " + m);
         }
 
-        meal = new ItemMeal().setUnlocalizedName("meal").setHasSubtypes(true).setTextureName("meals:default").setCreativeTab(mealsTab);
+        meal = new ItemMeal().setUnlocalizedName(mealUnlocalizedName).setHasSubtypes(true).setTextureName("meals:default").setCreativeTab(mealsTab);
 
-        GameRegistry.registerItem(meal, "meal");
+        GameRegistry.registerItem(meal, mealUnlocalizedName);
 
     }
 
@@ -96,10 +97,33 @@ public class Meals {
                 if (j > 2 && (j % 2 == 0)) {
                     String[] item = recipe[j].split(":");
                     int damage = 0;
-                    if (item.length > 1) {
-                        damage = Integer.parseInt(item[1]);
+                    String itemName = "";
+                    if(item.length > 2) {
+                        damage = Integer.parseInt(item[2]);
+                        itemName = item[0] + ":" + item[1];
+                    } else if (item.length > 1) {
+                        int x;
+                        try {
+                            x = Integer.parseInt(item[1]);
+                        } catch(NumberFormatException e) {
+                            x = -1;
+                        }
+                        if(x != -1) {
+                            damage = x;
+                            itemName = item[0];
+                        } else {
+                            itemName = item[0] + ":" + item[1];
+                        }
+                    } else {
+                        itemName = item[0];
                     }
-                    recipe2.add(new ItemStack(GameData.getItemRegistry().getObject(item[0]), 1, damage));
+                    Item item1 = GameData.getItemRegistry().getObject(itemName);
+                    if(item1 == null) {
+                        log.warn("Null item found! " + itemName + " - This item will appear as fire in recipes, and " +
+                                "the items will be uncraftable. Consider fixing your Meals_FoodConfig.json " +
+                                "(Remember: Mod items have to be prefixed with their modid)");
+                    }
+                    recipe2.add(new ItemStack(item1, 1, damage));
                 } else if (j > 2 && (j % 2 == 1)) {
                     recipe2.add(recipe[j].charAt(0));
                 } else {
